@@ -1,0 +1,8 @@
+*.js
+*.d.ts
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+check-actions/out
+credentials
