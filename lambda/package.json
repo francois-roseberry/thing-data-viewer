@@ -1,6 +1,13 @@
 {
   "name": "cloudwatch-metrics-converter",
   "version": "1.0.0",
+  "main": "src/index.js",
   "scripts": {
+    "test": "jest --coverage --runInBand"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-cloudwatch": "3.540.0",
+    "esbuild": "0",
+    "jest": "29.7.0"
   }
 }

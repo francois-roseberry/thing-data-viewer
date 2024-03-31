@@ -8,7 +8,10 @@ describe("Data Viewer stack", () => {
 
   beforeEach(() => {
     const app = new App();
-    stack = new DataViewerStack(app, "TestStack");
+    stack = new DataViewerStack(app, "TestStack", {
+      region: "region",
+      account: "1234",
+    });
   });
 
   it("should match snapshot", () => {

@@ -9,6 +9,135 @@ exports[`Data Viewer stack should match snapshot 1`] = `
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
   },
+  "Resources": {
+    "MqttToCloudwatchMetricsLambda34BF85AC": {
+      "DependsOn": [
+        "MqttToCloudwatchMetricsLambdaServiceRoleDefaultPolicyE8A3E50E",
+        "MqttToCloudwatchMetricsLambdaServiceRole76A974D2",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "65de771052c173bccac7ee0cbfc65d6fd6f823e386c2d04d385c609843abd664.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "FunctionName": "MqttToCloudwatchMetricsLambda",
+        "Handler": "./src/index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "MqttToCloudwatchMetricsLambdaServiceRole76A974D2",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 60,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "MqttToCloudwatchMetricsLambdaInvokeX1kgdpeq4A1b3T4Qgx5teuCJ9kkxQXuTuwWc9FHExDE9E699F21": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "MqttToCloudwatchMetricsLambda34BF85AC",
+            "Arn",
+          ],
+        },
+        "Principal": "iot.amazonaws.com",
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "MqttToCloudwatchMetricsLambdaServiceRole76A974D2": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "MqttToCloudwatchMetricsLambdaServiceRoleDefaultPolicyE8A3E50E": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:PutLogEvents",
+                "logs:CreateLogStream",
+                "logs:CreateLogGroup",
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:logs:region:1234:*",
+            },
+            {
+              "Action": "cloudwatch:PutMetricData",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "MqttToCloudwatchMetricsLambdaServiceRoleDefaultPolicyE8A3E50E",
+        "Roles": [
+          {
+            "Ref": "MqttToCloudwatchMetricsLambdaServiceRole76A974D2",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "ThingDataRule": {
+      "Properties": {
+        "RuleName": "thing_data_rule",
+        "TopicRulePayload": {
+          "Actions": [
+            {
+              "Lambda": {
+                "FunctionArn": {
+                  "Fn::GetAtt": [
+                    "MqttToCloudwatchMetricsLambda34BF85AC",
+                    "Arn",
+                  ],
+                },
+              },
+            },
+          ],
+          "AwsIotSqlVersion": "2016-03-23",
+          "Description": "Rule created to forward MQTT payloads to a lambda",
+          "Sql": "SELECT topic(1) as thing_name from $aws/rules/thing_data_rule/+",
+        },
+      },
+      "Type": "AWS::IoT::TopicRule",
+    },
+  },
   "Rules": {
     "CheckBootstrapVersion": {
       "Assertions": [
