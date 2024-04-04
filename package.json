@@ -14,7 +14,7 @@
     "lint": "yarn workspaces foreach --verbose --all run test",
     "lint:filenames": "ls-lint",
     "infra": "yarn workspace infra",
-    "lambda": "yarn workspace lambda"
+    "lambda": "yarn workspace cloudwatch-metrics-converter"
   },
   "devDependencies": {
     "@commitlint/cli": "19.2.1",

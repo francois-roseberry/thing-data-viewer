@@ -28,3 +28,7 @@ echo ----------------------------------
 echo ---------- Diff stacks -----------
 diff data-viewer
 echo ----------------------------------
+
+echo ---------- Deploy stacks -----------
+deploy data-viewer
+echo ----------------------------------

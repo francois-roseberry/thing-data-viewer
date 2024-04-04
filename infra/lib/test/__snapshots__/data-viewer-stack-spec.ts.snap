@@ -10,6 +10,28 @@ exports[`Data Viewer stack should match snapshot 1`] = `
     },
   },
   "Resources": {
+    "MqttMetricsDashboard04861D1E": {
+      "Properties": {
+        "DashboardBody": {
+          "Fn::Join": [
+            "",
+            [
+              "{"widgets":[{"type":"metric","width":12,"height":6,"x":0,"y":0,"properties":{"view":"timeSeries","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[[{"expression":"SELECT AVG(Temperature) FROM SCHEMA(ThingData, Device) GROUP BY Device","period":60}]],"yAxis":{"left":{"label":"Temperature (°C)","min":0,"max":100,"showUnits":false}},"liveData":true}},{"type":"metric","width":12,"height":6,"x":12,"y":0,"properties":{"view":"timeSeries","region":"",
+              {
+                "Ref": "AWS::Region",
+              },
+              "","metrics":[[{"expression":"SELECT AVG(Temperature) FROM SCHEMA(ThingData, Device) GROUP BY Device","period":60}]],"yAxis":{"left":{"label":"Humidity (%)","min":0,"max":100,"showUnits":false}},"liveData":true}}]}",
+            ],
+          ],
+        },
+        "DashboardName": "ThingDataViewer",
+      },
+      "Type": "AWS::CloudWatch::Dashboard",
+    },
     "MqttToCloudwatchMetricsLambda34BF85AC": {
       "DependsOn": [
         "MqttToCloudwatchMetricsLambdaServiceRoleDefaultPolicyE8A3E50E",
@@ -20,11 +42,13 @@ exports[`Data Viewer stack should match snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "65de771052c173bccac7ee0cbfc65d6fd6f823e386c2d04d385c609843abd664.zip",
+          "S3Key": "a4eb3312bbb5639b390f46b96fd8658c7e14ea9c64212fe214f54124c1226a4e.zip",
         },
         "Environment": {
           "Variables": {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "METRIC_DIMENSION": "Device",
+            "METRIC_NAMESPACE": "ThingData",
           },
         },
         "FunctionName": "MqttToCloudwatchMetricsLambda",
@@ -132,10 +156,63 @@ exports[`Data Viewer stack should match snapshot 1`] = `
           ],
           "AwsIotSqlVersion": "2016-03-23",
           "Description": "Rule created to forward MQTT payloads to a lambda",
-          "Sql": "SELECT topic(1) as thing_name from $aws/rules/thing_data_rule/+",
+          "ErrorAction": {
+            "CloudwatchLogs": {
+              "LogGroupName": "rule-errors",
+              "RoleArn": {
+                "Fn::GetAtt": [
+                  "valmetalputToS3Actionrole44C6EABD",
+                  "Arn",
+                ],
+              },
+            },
+          },
+          "Sql": "SELECT * from '$aws/rules/thing_data_rule'",
         },
       },
       "Type": "AWS::IoT::TopicRule",
+    },
+    "valmetalputToS3Actionrole44C6EABD": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "iot.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "valmetalputToS3ActionroleDefaultPolicy39757A7A": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:PutLogEvents",
+                "logs:CreateLogStream",
+                "logs:CreateLogGroup",
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:logs:region:1234:*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "valmetalputToS3ActionroleDefaultPolicy39757A7A",
+        "Roles": [
+          {
+            "Ref": "valmetalputToS3Actionrole44C6EABD",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
   },
   "Rules": {
