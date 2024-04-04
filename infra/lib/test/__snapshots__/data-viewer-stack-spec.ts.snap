@@ -20,11 +20,11 @@ exports[`Data Viewer stack should match snapshot 1`] = `
               {
                 "Ref": "AWS::Region",
               },
-              "","metrics":[[{"expression":"SELECT AVG(Temperature) FROM SCHEMA(ThingData, Device) GROUP BY Device","period":60}]],"yAxis":{"left":{"label":"Temperature (°C)","min":0,"max":100,"showUnits":false}},"liveData":true}},{"type":"metric","width":12,"height":6,"x":12,"y":0,"properties":{"view":"timeSeries","region":"",
+              "","metrics":[[{"expression":"SELECT AVG(Temperature) FROM SCHEMA(ThingData, Device) GROUP BY Device","period":60}]],"yAxis":{"left":{"label":"Temperature (°C)","min":10,"max":50,"showUnits":false}},"liveData":true}},{"type":"metric","width":12,"height":6,"x":12,"y":0,"properties":{"view":"timeSeries","region":"",
               {
                 "Ref": "AWS::Region",
               },
-              "","metrics":[[{"expression":"SELECT AVG(Temperature) FROM SCHEMA(ThingData, Device) GROUP BY Device","period":60}]],"yAxis":{"left":{"label":"Humidity (%)","min":0,"max":100,"showUnits":false}},"liveData":true}}]}",
+              "","metrics":[[{"expression":"SELECT AVG(Humidity) FROM SCHEMA(ThingData, Device) GROUP BY Device","period":60}]],"yAxis":{"left":{"label":"Humidity (%)","min":20,"max":70,"showUnits":false}},"liveData":true}}]}",
             ],
           ],
         },

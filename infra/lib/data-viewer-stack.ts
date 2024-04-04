@@ -115,7 +115,7 @@ export class DataViewerStack extends Stack {
     });
 
     const humidityMetricSet = new MathExpression({
-      expression: `SELECT AVG(Temperature) FROM SCHEMA(${METRIC_NAMESPACE}, ${METRIC_DIMENSION}) GROUP BY ${METRIC_DIMENSION}`,
+      expression: `SELECT AVG(Humidity) FROM SCHEMA(${METRIC_NAMESPACE}, ${METRIC_DIMENSION}) GROUP BY ${METRIC_DIMENSION}`,
       period: Duration.minutes(1),
       label: "",
     });
@@ -129,8 +129,8 @@ export class DataViewerStack extends Stack {
         left: [temperatureMetricSet],
         leftYAxis: {
           label: "Temperature (°C)",
-          min: 0,
-          max: 100,
+          min: 10,
+          max: 50,
           showUnits: false,
         },
         width: 12,
@@ -141,8 +141,8 @@ export class DataViewerStack extends Stack {
         left: [humidityMetricSet],
         leftYAxis: {
           label: "Humidity (%)",
-          min: 0,
-          max: 100,
+          min: 20,
+          max: 70,
           showUnits: false,
         },
         width: 12,
