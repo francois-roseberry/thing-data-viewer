@@ -88,7 +88,7 @@ export class DataViewerStack extends Stack {
       topicRulePayload: {
         awsIotSqlVersion: "2016-03-23",
         description: "Rule created to forward MQTT payloads to a lambda",
-        sql: "SELECT * from '$aws/rules/thing_data_rule'",
+        sql: "SELECT *, timestamp() as timestamp, topic(1) as device from '$aws/rules/thing_data_rule/+'",
         actions: [
           {
             lambda: {

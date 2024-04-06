@@ -167,7 +167,7 @@ exports[`Data Viewer stack should match snapshot 1`] = `
               },
             },
           },
-          "Sql": "SELECT * from '$aws/rules/thing_data_rule'",
+          "Sql": "SELECT *, timestamp() as timestamp, topic(1) as device from '$aws/rules/thing_data_rule/+'",
         },
       },
       "Type": "AWS::IoT::TopicRule",
