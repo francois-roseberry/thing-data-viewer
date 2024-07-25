@@ -15,3 +15,19 @@ When your device sends a message with some data over MQTT to the cloud, what wil
 - The lambda will put that data into custom Cloudwatch metrics. These metrics will then be monitored in a Cloudwatch dashboard.
 
 At the time of writing this, all of the AWS resources in this project are within the free tier.
+
+## Setup
+
+- have an AWS account (it's free!)
+- install yarn and nvm
+- `nvm use`
+- `yarn prepare`
+
+## Run tests and lint
+
+- `yarn lint`
+- `yarn test`
+
+## Deployment
+
+After copying the AWS credentials in your terminal, do `yarn infra deploy`
