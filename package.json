@@ -1,7 +1,6 @@
 {
   "name": "thing-data-viewer",
   "version": "1.0.0",
-  "private" : "true",
   "workspaces": {
     "packages": [
       "infra",
@@ -20,7 +19,8 @@
     "@commitlint/cli": "19.2.1",
     "@commitlint/config-conventional": "19.1.0",
     "@ls-lint/ls-lint": "2.2.3",
-    "husky": "9.0.11",
-    "eslint": "8.57.0"
-  }
+    "eslint": "8.57.0",
+    "husky": "9.0.11"
+  },
+  "packageManager": "yarn@4.4.1"
 }
