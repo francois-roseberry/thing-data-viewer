@@ -5,6 +5,7 @@ const { sendMock } = require('./__mocks__/@aws-sdk/client-cloudwatch')
 
 describe('Mqtt to cloudwatch metrics lambda', () => {
   it('should put temperature and humidity in the MQTT payload into CloudWatch metrics', () => {
+    jest.spyOn(console, 'log').mockImplementation()
     process.env.METRIC_NAMESPACE = 'namespace'
     process.env.METRIC_DIMENSION = 'dimension'
     const device = 'SomeDevice'
